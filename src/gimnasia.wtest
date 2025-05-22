@@ -1,3 +1,4 @@
+import clubes.*
 import personas.*
 import rutinas.*
 
@@ -10,13 +11,10 @@ describe "rutinas" {
 	const calamardo = new PersonaSedentaria(peso = 60, tiempoDeEjercitacion = 5)
  	const bob =  new PersonaAtleta(peso = 40)
 
-//Punto 3: clubes
-	//const recreo = //un predio con correrEnLaPlaya y maratonBA
-	//const nautico = //un predio con remarEnElDelta y remarEnCaminoRemeros
-	//const clubBarrial = //un club con recreo y nautico
-//	
-//
-// PUNTO 1
+	const recreo = new Predio(rutinasDisponibles = #{correrEnLaPlaya, maratonBA})
+	const nautico = new Predio(rutinasDisponibles = #{remarEnElDelta, remarEnCaminoRemeros})
+	const clubBarrial = new Club(predios = #{recreo, nautico})
+
 	test "1.1 consulta running" {
 		assert.equals(360, correrEnLaPlaya.caloriasQuemadas(5))
 		assert.equals(10200, correrEnLaPlaya.caloriasQuemadas(90))
@@ -83,20 +81,18 @@ describe "rutinas" {
 		assert.equals(39.406, bob.peso().truncate(3))
 	}
 	 
-//punto 3: Consultas
-//	test "3.1 el mejor predio" {
-//		//El mejor predio del clubBarrial para bob debería ser recreo		
-//		//El mejor predio del clubBarrial para calamardo debería ser recreo		
-//	}	
+	test "3.1 el mejor predio" {
+		assert.equals(recreo, clubBarrial.mejorPredioPara(bob))
+		assert.equals(recreo, clubBarrial.mejorPredioPara(calamardo))
+	}	
 	
-//	test "3.2 predios tranquis" {
-//		//No debería haber predios tranquis en el clubBarrial para bob
-//		//Los predios tranquis del clubBarrial para calamardo solo incluyen a recreo  
-//	}
+	test "3.2 predios tranquis" {
+		assert.equals(#{}, clubBarrial.prediosTranquisPara(bob))
+		assert.equals(#{recreo}, clubBarrial.prediosTranquisPara(calamardo))
+	}
 	
-//	test "3.3 rutinas más exigentes" {
-//		//Las rutinas más exigentes del clubBarrial para bob son maratonBA y remarEnCaminoRemeros
-//		//Las rutinas más exigentes del clubBarrial para calamardo son maratonBA y remarEnElDelta
-//	}
-	
+	test "3.3 rutinas más exigentes" {
+		assert.equals(#{maratonBA, remarEnCaminoRemeros}, clubBarrial.rutinasMasExigentesPara(bob))
+		assert.equals(#{maratonBA, remarEnElDelta}, clubBarrial.rutinasMasExigentesPara(calamardo))
+	}
 }

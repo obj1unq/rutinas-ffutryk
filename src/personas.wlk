@@ -1,6 +1,6 @@
 class Persona {
   var property peso
-  const tiempoDeEjercitacion
+  const property tiempoDeEjercitacion
   const kilosPorCaloría
 
   method pesoAPerder(rutina) = (rutina.caloriasQuemadas(tiempoDeEjercitacion) / kilosPorCaloría)
